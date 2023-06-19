@@ -1,0 +1,123 @@
+﻿@model TradeApp.Models.ShoppingCartViewModel
+@{
+    ViewData["Title"] = "Sepet";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<form method="post">
+    @if (Model.ListCart.Count() > 0)
+    {
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    <br />
+                    <table class="table table-hover text-center" id="myTable">
+                        <thead>
+                            <tr>
+                                <th>
+                                    Resim
+                                </th>
+                                <th>
+                                    Başlık
+                                </th>
+                                <th>
+                                    Adet
+                                </th>
+                                <th>
+                                    Sepetten Sil
+                                </th>
+                                <th>
+                                    Fiyat
+                                </th>
+                                <th>
+                                    Tutar
+                                </th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in Model.ListCart)
+                            {
+                                <tr>
+                                    <td>
+                                        <img src="@item.Product.Image" style="width:50px; object-fit:contain;" />
+                                    </td>
+                                    <td>
+                                        @item.Product.Title
+                                    </td>
+                                    <td>
+
+                                        <div class="btn-group" role="group" aria-label="Basic outlined example">
+                                            <button asp-action="Decrease" asp-route-cartId="@item.Id" class="btn btn-dark"><i class="bi bi-dash"></i></button>
+                                            <button class="btn btn-outline-dark"> @item.Count</button>
+                                            <button asp-action="Add" asp-route-cartId="@item.Id" class="btn btn-dark">
+                                                <i class="bi bi-plus"></i>
+                                            </button>
+
+
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <button asp-action="Remove" asp-route-cartId="@item.Id" class="btn btn-outline-danger"><i class="bi bi-trash"></i></button>
+                                    </td>
+                                    <td>
+                                        @item.Product.Price.ToString("0.00") ₺
+                                    </td>
+                                    <td>
+                                        @((item.Count * item.Product.Price).ToString("0.00")) ₺
+                                    </td>
+                                </tr>
+                            }
+                            <tr class="bg-light">
+                                <td colspan="5" style="text-align:right;font-size:large;">
+                                    <strong>Toplam Tutar : </strong>
+                                </td>
+                                <td>
+                                    <span style="color:black;font-size:large;">@Model.OrderHeader.OrderTotalCost.ToString("0.00") ₺</span>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <div class="row">
+                        <div class="col-md-4">
+
+                            <a asp-area="Customer" asp-controller="Home" asp-action="Index" class="btn btn-secondary form-control">Alışverişe Devam Et</a>
+                        </div>
+                        <div class="col-md-4">
+                        </div>
+                        <div class="col-md-4">
+                                <a asp-area="Customer" asp-controller="Cart" asp-action="Summary" class="btn btn-primary form-control">Sipariş Ver</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+    else
+    {
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    <br />
+                    <h1>Sepetinizde Ürün Bulunmamakta</h1>
+                </div>
+            </div>
+        </div>
+
+    }
+
+
+</form>
+
+@*@section Scripts{
+    <script type="text/javascript">
+        let table = new DataTable('#myTable');
+                        //$('myTable').DataTable({
+
+                        //    "language": {
+                        //        "url": "https://cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Turkish.json"
+                        //    }
+                        //});
+    </script>
+}
+*@

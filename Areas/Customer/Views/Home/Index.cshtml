@@ -1,0 +1,39 @@
+﻿@model IEnumerable<TradeApp.Models.Product>
+@{
+    ViewData["Title"] = "Anasayfa";
+}
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-3"">
+           @await Component.InvokeAsync("CategoryList")
+        </div>
+        
+            @foreach (var item in Model)
+            {
+            <div class="col-md-3 mb-3">
+                <div class="card" style="height:360px;">
+                    <div class="card-header">
+                        @item.Title
+                    </div>
+                    <div>
+                        <img src="@item.Image" class="card-img-top mt-2" style="width:250px; height:100px; object-fit:contain;">
+                    </div>
+                    
+                    <div class="card-body">
+                        <h5 class="card-title">@item.Title</h5>
+                        <p class="card-text">@item.Description</p>
+                        
+                    </div>
+                    <div class="card-footer">
+                        <label style="font-size:20px;"><b>@item.Price.ToString("0.00") ₺</b></label>
+                        <a href="/Customer/Home/Details/@item.Id" class="btn btn-outline-primary" style="float:right;">İncele</a>
+                        @*<a asp-action="Details" asp-controller="Home" asp-route-id="@item.Id">Deneme</a>*@
+                    </div>
+                </div>
+            </div>
+            }
+           
+        
+    </div>
+</div>

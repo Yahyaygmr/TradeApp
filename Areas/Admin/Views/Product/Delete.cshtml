@@ -1,0 +1,86 @@
+﻿@model TradeApp.Models.Product
+
+@{
+    ViewData["Title"] = "Delete";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container">
+
+    <h1>Ürün Silme</h1>
+
+<h3>Seçmiş Olduğunuz Ürün Silinmek Üzere! Onaylıyor musunuz?</h3>
+<div>
+    <hr />
+    <div>
+          @if (@Html.DisplayFor(model => model.Image) == null)
+            {
+                <img src="~/images/image/resim-yok.png" style="width:300px; height:250px; object-fit:contain" />
+            }
+            else
+            {
+                <img src="@Html.DisplayFor(model => model.Image)" style="width:300px; height:250px; object-fit:contain;" />
+            }
+    </div>
+    <dl class="row">
+        <dt class = "col-sm-2">
+            Ürün Başlığı :
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Title)
+        </dd>
+        <dt class = "col-sm-2">
+           Açıklama :
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Description)
+        </dd>
+        <dt class = "col-sm-2">
+           Fiyat :
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Price)
+        </dd>
+        <dt class = "col-sm-2">
+            Anasayfaya Ekle
+        </dt>
+        <dd class = "col-sm-10">
+               @if (Model.IsHome)
+                {
+                    <label class="btn btn-outline-success btn-sm"><i class="bi bi-check2"></i> Evet</label>
+                }
+                else
+                {
+                    <label class="btn btn-outline-danger btn-sm"><i class="bi bi-x-circle"></i> Hayır</label>
+                }
+        </dd>
+        <dt class = "col-sm-2">
+            Stok :
+        </dt>
+        <dd class = "col-sm-10">
+            @if (Model.IsStock)
+                {
+                    <label class="btn btn-outline-success btn-sm"><i class="bi bi-check2"></i> Stokta Var</label>
+                }
+                else
+                {
+                    <label class="btn btn-outline-danger btn-sm"><i class="bi bi-x-circle"></i> Stokya Yok</label>
+                }
+        </dd>
+        <dt class = "col-sm-2">
+            Kategori :
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Category.Name)
+        </dd class>
+    </dl>
+    
+    <form asp-action="Delete">
+    <input type="hidden" asp-for="Id" />
+            <a class="btn btn-secondary  mr-5" asp-action="Index"><i class="bi bi-arrow-left"></i> Listeye Dön</a>
+            <input type="submit" value="Sil" class="btn btn-danger" />
+    </form>
+</div>
+
+</div>
+

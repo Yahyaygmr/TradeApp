@@ -1,0 +1,108 @@
+﻿@model IEnumerable<TradeApp.Models.Product>
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container">
+
+    <h1>Ürünler</h1>
+
+    <p>
+        <a class="btn btn-outline-primary" asp-action="Create">+ Ürün Ekle</a>
+    </p>
+    <table class="table table-hover" id="myTable">
+        <thead>
+            <tr>
+                <th>
+                    Resim
+                </th>
+                <th>
+                    Başlık
+                </th>
+               
+                <th>
+                    Fiyat
+                </th>
+             
+                <th>
+                    Anasayfa
+                </th>
+                <th>
+                    Stok
+                </th>
+                <th>
+                    Kategori
+                </th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @if(item.Image == null)
+                        {
+                            <img src="~/images/image/resim-yok.png" width="80" height="50" style="border:thin; border-radius: 50%; object-fit:contain;" />
+                        }
+                        else
+                        {
+                            <img src="@item.Image" width="80" height="50" style="border:thin; border-radius: 50%; object-fit:contain;" />
+                        }
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Title)
+                    </td>
+                    
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Price)
+                    </td>
+                    
+                    <td>
+                        @if(item.IsHome)
+                        {
+                            <label class="btn btn-outline-success btn-sm"><i class="bi bi-check2"></i> Evet</label>
+                        }
+                        else
+                        {
+                            <label class="btn btn-outline-danger btn-sm"><i class="bi bi-x-circle"></i> Hayır</label>
+                        }
+                    </td>
+                    <td>
+                        @if (item.IsStock)
+                        {
+                            <label class="btn btn-outline-success btn-sm"><i class="bi bi-check2"></i> Stokta Var</label>
+                        }
+                        else
+                        {
+                            <label class="btn btn-outline-danger btn-sm"><i class="bi bi-x-circle"></i> Stokya Yok</label>
+                        }
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Category.Name)
+                    </td>
+                    <td>
+                        <a class="btn btn-info" asp-action="Edit" asp-route-id="@item.Id"><i class="bi bi-pen"></i> Düzenle</a>
+                        <a class="btn btn-dark" asp-action="Details" asp-route-id="@item.Id"><i class="bi bi-file-text"></i>  Detay</a>
+                        <a class="btn btn-danger" asp-action="Delete" asp-route-id="@item.Id"><i class="bi bi-trash3"></i>  Sil</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
+</div>
+
+@section Scripts{
+    <script type="text/javascript">
+        let table = new DataTable('#myTable');
+                //$('myTable').DataTable({
+
+                //    "language": {
+                //        "url": "https://cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Turkish.json"
+                //    }
+                //});
+    </script>
+}

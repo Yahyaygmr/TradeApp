@@ -1,0 +1,76 @@
+﻿@model IEnumerable<ApplicationUser>
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="row">
+    <div class="col-md-6">
+        <h2>Kullanıcı Listesi</h2>
+    </div>
+    <div class="col-md-6">
+        <p>
+            <a asp-area="Identity" asp-page="/Account/Register" class="btn btn-outline-primary form-control">+ Kullanıcı Ekle</a>
+        </p>
+    </div>
+</div>
+<hr />
+<br />
+<div class="container">
+    <table class="table table-hover" id="myTable">
+        <thead>
+            <tr>
+                <th>
+                    Kullanıcı Adı
+                </th>
+                <th>
+                    Kullanıcı Soyadı
+                </th>
+                <th>
+                    E Mail
+                </th>
+                <th>
+                    Rol
+                </th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Name)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Surname)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Email)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Role)
+                    </td>
+                    <td>
+                       @* <a class="btn btn-info" asp-action="Edit" asp-route-id="@item.Id"><i class="bi bi-pen"></i> Düzenle</a>
+                        <a class="btn btn-dark" asp-action="Details" asp-route-id="@item.Id"><i class="bi bi-file-text"></i>  Detay</a>*@
+                        <a class="btn btn-outline-danger" asp-action="Delete" asp-route-id="@item.Id.ToString()"><i class="bi bi-trash3"></i>  Sil</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+
+
+@section Scripts{
+    <script type="text/javascript">
+        let table = new DataTable('#myTable');
+                        //$('myTable').DataTable({
+
+                        //    "language": {
+                        //        "url": "https://cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Turkish.json"
+                        //    }
+                        //});
+    </script>
+}

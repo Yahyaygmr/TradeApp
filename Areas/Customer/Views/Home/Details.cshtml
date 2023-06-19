@@ -1,0 +1,88 @@
+﻿@model TradeApp.Models.ShoppingCard
+@{
+    ViewData["Title"] = "Details";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container">
+    <div class="row">
+        <form method="post">
+            <input hidden asp-for="ProductId" />
+            <div class="card mb-12">
+                <div class="row g-0">
+                    <div class="col-md-4">
+                        <img src="@Model.Product.Image" class="img-fluid rounded-start" alt="Ürün Resim" style="height:300px; object-fit:contain;">
+                    </div>
+                    <div class="col-md-8">
+                        <div class="card-body">
+                            <h2>@Model.Product.Title </h2>
+                            <hr />
+                            <dl class="row">
+                                <dt class="col-sm-3  text-primary">
+                                    Stok :
+                                </dt>
+                                <dd class="col-sm-9">
+                                    @if (@Model.Product.IsStock)
+                                    {
+                                        <p class="text-success">Stokta Var</p>
+                                    }
+                                    else
+                                    {
+                                        <p class=" text-danger">Stokta Yok</p>
+                                    }
+
+                                </dd>
+                                <dt class="col-sm-3">
+                                    Başlık :
+                                </dt>
+                                <dd class="col-sm-9">
+                                    @Model.Product.Title
+                                </dd>
+                                <dt class="col-sm-3">
+                                    Açıklama :
+                                </dt>
+                                <dd class="col-sm-9">
+                                    @Model.Product.Description
+                                </dd>
+                                <dt class="col-sm-3">
+                                    Fiyat :
+                                </dt>
+                                <dd class="col-sm-9">
+                                    @Model.Product.Price.ToString("0,00") ₺
+                                </dd>
+                                <dt class="col-sm-3">
+                                    Adet :
+                                </dt>
+                                <dd class="col-sm-9">
+                                    <input asp-for="Count" class="form-control-sm"/>
+                                </dd>
+                            </dl>
+                        </div>
+                    </div>
+
+                    <br />
+                   
+
+                    <div class="col-md-4 mb-1">
+                    </div>
+                    <div class="col-md-3 mb-3">
+                        <a asp-action="Index" asp-controller="Home" class="btn btn-dark form-control">Anasayfa</a>
+                    </div>
+                    <div class="col-md-1">
+                    </div>
+                    <div class="col-md-3 mb-3">
+                        @if (@Model.Product.IsStock)
+                        {
+                            <button type="submit" class="btn btn-success form-control"><i class="bi bi-cart4"></i> Sepete Ekle</button>
+                        }
+                        else
+                        {
+                            <p class="text-warning">Stokta Yok</p>
+                        }
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+

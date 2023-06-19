@@ -1,0 +1,135 @@
+﻿@model TradeApp.Models.OrderDetailsViewModel
+@{
+    ViewData["Title"] = "Details";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<form method="post">
+    <input hidden asp-for="OrderHeader.Id" />
+    <div class="container">
+
+        <h3>Sipariş Detayı</h3>
+        <div>
+            <hr />
+            <div class="card">
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <h3>Müşteri Bilgileri</h3>
+                            <hr />
+                            <dl class="row">
+                                <dt class="col-sm-4">
+                                    Adı :
+                                </dt>
+                                <dd class="col-sm-8">
+                                    @Model.OrderHeader.Name
+                                </dd>
+                                <dt class="col-sm-4">
+                                    Soyadı :
+                                </dt>
+                                <dd class="col-sm-8">
+                                    @Model.OrderHeader.Surname
+                                </dd>
+                                <dt class="col-sm-4">
+                                    Telefon No :
+                                </dt>
+                                <dd class="col-sm-8">
+                                    @Model.OrderHeader.PhoneNumber
+                                </dd>
+                                <dt class="col-sm-4">
+                                    İl :
+                                </dt>
+                                <dd class="col-sm-8">
+                                    @Model.OrderHeader.City
+                                </dd>
+                                <dt class="col-sm-4">
+                                    İlçe :
+                                </dt>
+                                <dd class="col-sm-8">
+                                    @Model.OrderHeader.District
+                                </dd>
+                                <dt class="col-sm-4">
+                                    Adres :
+                                </dt>
+                                <dd class="col-sm-8">
+                                    @Model.OrderHeader.Adress
+                                </dd>
+                                <dt class="col-sm-4">
+                                    Posta Kodu :
+                                </dt>
+                                <dd class="col-sm-8">
+                                    @Model.OrderHeader.PostCode
+                                </dd>
+                                <dt class="col-sm-4">
+                                    Sipariş Tarihi :
+                                </dt>
+                                <dd class="col-sm-8">
+                                    @Model.OrderHeader.OrderDate.ToShortDateString()
+                                </dd>
+                            </dl>
+                        </div>
+                        <div class="col-md-6">
+                            <h3>Sipariş Bilgileri</h3>
+                            <hr />
+                            <div class="col-md-12">
+                                <ul class="list-group mb-3">
+                                    @foreach (var item in Model.OrderDetails)
+                                    {
+                                        <li class="list-group-item d-flex justify-content-between lh-sm">
+                                            <div>
+                                                <h6 class="my-0">@item.Product.Title</h6>
+                                                <small class="text-body-secondary">Adet : @item.Count</small>
+                                            </div>
+                                            <span class="text-body-secondary">@((item.Count * item.Product.Price).ToString("0.00")) ₺</span>
+                                        </li>
+                                    }
+                                    <li class="list-group-item d-flex justify-content-between bg-light">
+                                        <span>Toplam Tutar : </span>
+                                        <strong>@Model.OrderHeader.OrderTotalCost.ToString("0.00") ₺</strong>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+
+
+                    </div>
+
+                </div>
+                <div class="card-footer">
+                    <div class="row">
+                        <div class="col-md-4">
+                            <a asp-action="Index" asp-controller="Order" asp-area="Admin" class="btn btn-dark form-control">Geri</a>
+                        </div>
+                        <div class="col-md-4 text-center">
+                            <p>Sipariş Durumu :</p>
+                            <hr />
+                            <p class="text-uppercase" style="font-weight:bolder;">@Model.OrderHeader.OrderStatus</p>
+                        </div>
+                        <div class="col-md-4">
+                            @if (User.IsInRole(Other.Role_Admin))
+                            {
+                                @if (Model.OrderHeader.OrderStatus == Other.Status_Onhold)
+                                {
+                                    <input type="submit" value="Siparişi Onayla" class="btn btn-success form-control" formaction="/Admin/Order/Approve" formmethod="post" />
+                                }
+
+                                @if (Model.OrderHeader.OrderStatus == Other.Status_Approved)
+                                {
+                                    <input type="submit" value="Kargoya Ver" class="btn btn-success form-control" formaction="/Admin/Order/ShipIt" formmethod="post" />
+                                }
+                                @if (Model.OrderHeader.OrderStatus == Other.Status_Shipped)
+                                {
+                                    @*<input type="submit" value="Siparişi Onayla" class="btn btn-success form-control" formaction="/Admin/Order/Approve" formmethod="post" />*@
+                                }
+                            }
+                        </div>
+
+
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</form>
+
